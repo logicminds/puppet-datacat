@@ -27,9 +27,11 @@ Puppet::Type.type(:datacat_collector).provide(:datacat_collector) do
     else
       vars = Puppet_X::Richardc::Datacat_Binding.new(data, resource[:template])
 
-      debug "Applying template #{@resource[:template]}"
+      debug "Applying template(s) #{@resource[:template].inspect}"
       template = ERB.new(@resource[:template_body] || '', 0, '-')
-      template.filename = @resource[:template]
+      # Why do we even care about the filename?
+      # disabled as this causes problem and a filename is not passed in (ie. array )
+      #template.filename = @resource[:template]
       content = template.result(vars.get_binding)
     end
 
